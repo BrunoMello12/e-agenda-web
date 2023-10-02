@@ -8,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { CoreModule } from './core/core.module';
 import { ContatosModule } from './views/contatos/contatos.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ContatosModule } from './views/contatos/contatos.module';
       preventDuplicates: true,
     }),
 
+    HttpClientModule,
     CoreModule,
     DashboardModule,
     ContatosModule
