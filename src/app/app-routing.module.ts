@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { InserirContatoComponent } from './views/contatos/inserir-contato/inserir-contato.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'contatos/inserir',
+    component: InserirContatoComponent
   },
 ];
 

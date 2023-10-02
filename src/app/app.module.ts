@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { DashboardModule } from './views/dashboard/dashboard.module';
+import { CoreModule } from './core/core.module';
+import { ContatosModule } from './views/contatos/contatos.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { DashboardModule } from './views/dashboard/dashboard.module';
       preventDuplicates: true,
     }),
 
+    CoreModule,
     DashboardModule,
+    ContatosModule
   ],
   providers: [],
   bootstrap: [AppComponent]
