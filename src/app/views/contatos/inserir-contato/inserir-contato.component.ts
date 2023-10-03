@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContatosService } from '../services/contatos.service';
 import { Router } from '@angular/router';
 import { FormsContatoViewModel } from '../models/forms-contato.view-model';
@@ -19,19 +19,43 @@ export class InserirContatoComponent implements OnInit{
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      nome: new FormControl(''),
-      email: new FormControl(''),
-      telefone: new FormControl(''),
-      cargo: new FormControl(''),
-      empresa: new FormControl(''),
+      nome: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      telefone: new FormControl('', [Validators.required]),
+      cargo: new FormControl('', [Validators.required]),
+      empresa: new FormControl('', [Validators.required]),
     })
   }
 
+  get nome(){
+    return this.form.get('nome');
+  }
+
+  get email(){
+    return this.form.get('nome');
+  }
+
+  get telefone(){
+    return this.form.get('nome');
+  }
+
+  get cargo(){
+    return this.form.get('nome');
+  }
+
+  get empresa(){
+    return this.form.get('nome');
+  }
+
   gravar(){
+    if(this.form.invalid){
+      return;
+    }
+
     this.contatoVM = this.form.value;
 
     this.contatoService.inserir(this.contatoVM).subscribe((res) => {
-      this.router.navigate(['/dashboard'])
+      this.router.navigate(['/contatos/listar'])
     })
   }
 }

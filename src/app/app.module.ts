@@ -27,7 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     CoreModule,
     DashboardModule,
-    ContatosModule
+    ContatosModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

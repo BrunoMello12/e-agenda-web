@@ -44,6 +44,7 @@
               <td class="d-grid d-md-block">
                 <button
                   data-cy="btnEditar"
+                  routerLink="/contatos/editar/{{contato.id}}"
                   type="button"
                   class="btn btn-sm btn-primary me-0 me-md-1 mb-1 mb-md-auto"
                 >
@@ -51,6 +52,7 @@
                 </button>
                 <button
                   data-cy="btnExcluir"
+                  routerLink="/contatos/excluir/{{contato.id}}"
                   type="button"
                   class="btn btn-sm btn-outline-danger me-0 me-md-1 mb-1 mb-md-auto"
                 >
