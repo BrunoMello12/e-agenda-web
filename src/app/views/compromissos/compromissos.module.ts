@@ -4,13 +4,19 @@ import { ListarCompromissosComponent } from './listar-compromissos/listar-compro
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InserirCompromissoComponent } from './inserir-compromisso/inserir-compromisso.component';
+import { EditarCompromissoComponent } from './editar-compromisso/editar-compromisso.component';
+import { ExcluirCompromissoComponent } from './excluir-compromisso/excluir-compromisso.component';
+import { CardCompromissoComponent } from './card-compromisso/card-compromisso.component';
 
 
 
 @NgModule({
   declarations: [
     ListarCompromissosComponent,
-    InserirCompromissoComponent
+    InserirCompromissoComponent,
+    EditarCompromissoComponent,
+    ExcluirCompromissoComponent,
+    CardCompromissoComponent
   ],
   imports: [
     CommonModule,

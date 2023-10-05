@@ -33,6 +33,20 @@ export class InserirCompromissoComponent implements OnInit {
       contatoId: new FormControl(''),
     })
 
+    this.form.get('tipoLocal')?.valueChanges.subscribe((value) => {
+      if (value === 0) {
+        this.form.get('local')?.disable();
+        this.form.get('link')?.enable(); 
+        
+        this.form.get('local')?.setValue('');
+      } else {
+        this.form.get('link')?.disable();
+        this.form.get('local')?.enable(); 
+        
+        this.form.get('link')?.setValue('');
+      }
+    });
+
     this.contatoService.selecionarTodos().subscribe(res => {
       this.contatos = res;
     })

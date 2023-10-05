@@ -4,6 +4,7 @@ import { Observable, map } from "rxjs";
 import { environment } from "src/environments/environment";
 import { FormsCompromissosViewModel } from "../models/forms-compromisso.view-model";
 import { ListarCompromissosViewModel } from "../models/listar-compromisso.view-model";
+import { VisualizarCompromissoViewModel } from "../models/visualizar-compromisso.view-model";
 
 
 
@@ -12,7 +13,7 @@ import { ListarCompromissosViewModel } from "../models/listar-compromisso.view-m
 })
 export class CompromissoService{
   private endpoint: string = 
-  'https://e-agenda-web-api.onrender.com/api/compromissos';
+  'https://e-agenda-web-api.onrender.com/api/compromissos/';
 
   constructor(private http: HttpClient){}
 
@@ -42,10 +43,10 @@ export class CompromissoService{
     .pipe(map(res => res.dados));
   }
 
-  // public selecionarContatoCompletoPorId(id: string): Observable<VisualizarContatoViewModel>{
-  //   return this.http.get<any>(this.endpoint + 'visualizacao-completa/' + id, this.obterHeadersAutorizacao())
-  //   .pipe(map(res => res.dados));
-  // }
+  public selecionarCompromissoCompletoPorId(id: string): Observable<VisualizarCompromissoViewModel>{
+    return this.http.get<any>(this.endpoint + 'visualizacao-completa/' + id, this.obterHeadersAutorizacao())
+    .pipe(map(res => res.dados));
+  }
 
   private obterHeadersAutorizacao() {
     const token = environment.apiKey;
