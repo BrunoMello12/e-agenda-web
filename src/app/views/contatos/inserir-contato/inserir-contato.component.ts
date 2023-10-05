@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ContatosService } from '../services/contatos.service';
 import { Router } from '@angular/router';
 import { FormsContatoViewModel } from '../models/forms-contato.view-model';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-inserir-contato',
@@ -15,6 +17,7 @@ export class InserirContatoComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
     private contatoService: ContatosService,
+    private toastrService: ToastrService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -32,30 +35,44 @@ export class InserirContatoComponent implements OnInit{
   }
 
   get email(){
-    return this.form.get('nome');
+    return this.form.get('email');
   }
 
   get telefone(){
-    return this.form.get('nome');
+    return this.form.get('telefone');
   }
 
   get cargo(){
-    return this.form.get('nome');
+    return this.form.get('cargo');
   }
 
   get empresa(){
-    return this.form.get('nome');
+    return this.form.get('empresa');
   }
 
   gravar(){
     if(this.form.invalid){
+      this.toastrService.warning('Verifique o preenchimento do formulário!', 'Aviso');
+
+      this.form.markAllAsTouched();
+
       return;
     }
 
     this.contatoVM = this.form.value;
 
-    this.contatoService.inserir(this.contatoVM).subscribe((res) => {
-      this.router.navigate(['/contatos/listar'])
-    })
+    this.contatoService.inserir(this.contatoVM).subscribe({
+      next: (contato: FormsContatoViewModel) => this.processarSucesso(contato),
+      error: (err: Error) => this.processarFalha(err),
+    });
+  }
+
+  processarSucesso(contato: FormsContatoViewModel){
+    this.toastrService.success(`O contato ${contato.nome} foi cadastrado com sucesso!`, 'Sucesso')
+    this.router.navigate(['/contatos/listar'])
+  }
+
+  processarFalha(erro: Error){
+    this.toastrService.error(`${erro.message}`,'Error')
   }
 }
