@@ -1,5 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  ResolveFn,
+  RouterModule,
+  Routes,
+} from '@angular/router';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { InserirContatoComponent } from './views/contatos/inserir-contato/inserir-contato.component';
 import { ListarContatosComponent } from './views/contatos/listar-contatos/listar-contatos.component';
@@ -9,53 +14,77 @@ import { ListarCompromissosComponent } from './views/compromissos/listar-comprom
 import { InserirCompromissoComponent } from './views/compromissos/inserir-compromisso/inserir-compromisso.component';
 import { EditarCompromissoComponent } from './views/compromissos/editar-compromisso/editar-compromisso.component';
 import { ExcluirCompromissoComponent } from './views/compromissos/excluir-compromisso/excluir-compromisso.component';
+import { FormsContatoViewModel } from './views/contatos/models/forms-contato.view-model';
+import { ContatosService } from './views/contatos/services/contatos.service';
+import { ListarContatoViewModel } from './views/contatos/models/listar-contato.view-model';
+
+const listarContatosResolver: ResolveFn<ListarContatoViewModel[]> = () => {
+  return inject(ContatosService).selecionarTodos();
+};
+
+const formsContatoResolver: ResolveFn<FormsContatoViewModel> = (
+  route: ActivatedRouteSnapshot
+) => {
+  return inject(ContatosService).selecionarPorId(route.paramMap.get('id')!);
+};
+
+const visualizarContatoResolver: ResolveFn<FormsContatoViewModel> = (
+  route: ActivatedRouteSnapshot
+) => {
+  return inject(ContatosService).selecionarContatoCompletoPorId(
+    route.paramMap.get('id')!
+  );
+};
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
   },
   {
     path: 'contatos/inserir',
-    component: InserirContatoComponent
+    component: InserirContatoComponent,
   },
   {
     path: 'contatos/editar/:id',
-    component: EditarContatoComponent
+    component: EditarContatoComponent,
+    resolve: { contato: formsContatoResolver },
   },
   {
     path: 'contatos/excluir/:id',
-    component: ExcluirContatoComponent
+    component: ExcluirContatoComponent,
+    resolve: { contato: visualizarContatoResolver },
   },
   {
     path: 'contatos/listar',
-    component: ListarContatosComponent
+    component: ListarContatosComponent,
+    resolve: { contatos: listarContatosResolver }
   },
   {
     path: 'compromissos/listar',
-    component: ListarCompromissosComponent
+    component: ListarCompromissosComponent,
   },
   {
     path: 'compromissos/inserir',
-    component: InserirCompromissoComponent
+    component: InserirCompromissoComponent,
   },
   {
     path: 'compromissos/editar/:id',
-    component: EditarCompromissoComponent
+    component: EditarCompromissoComponent,
   },
   {
     path: 'compromissos/excluir/:id',
-    component: ExcluirCompromissoComponent
+    component: ExcluirCompromissoComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
