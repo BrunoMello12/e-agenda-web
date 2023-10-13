@@ -9,6 +9,7 @@
         <div class="form-group mb-3 position-relative">
           <label class="form-label">Assunto:</label>
           <input
+            [ngClass]="assunto?.touched && assunto?.invalid ? 'is-invalid' : ''"
             formControlName="assunto"
             class="form-control"
             type="text"
@@ -31,6 +32,7 @@
         <div class="form-group mb-3 position-relative">
           <label class="form-label">Link:</label>
           <input
+            [ngClass]="link?.touched && link?.invalid ? 'is-invalid' : ''"
             formControlName="link"
             class="form-control"
             type="text"
@@ -41,6 +43,7 @@
         <div class="form-group mb-3 position-relative">
           <label class="form-label">Local:</label>
           <input
+            [ngClass]="local?.touched && local?.invalid ? 'is-invalid' : ''"
             formControlName="local"
             class="form-control"
             type="text"
@@ -77,7 +80,7 @@
 
         <div class="form-group mb-3 position-relative">
           <label class="form-label">Contato:</label>
-          <select formControlName="contatoId" class="form-select w-50" name="categoriaId" id="">
+          <select formControlName="contatoId" class="form-select w-50" name="categoriaId" id="" [ngClass]="contato?.touched && contato?.invalid ? 'is-invalid' : ''">
             <option *ngFor="let contato of contatos" [value]="contato.id" >{{contato.nome}}</option>
           </select>
         </div>

@@ -7,6 +7,9 @@ import { InserirCompromissoComponent } from './inserir-compromisso/inserir-compr
 import { EditarCompromissoComponent } from './editar-compromisso/editar-compromisso.component';
 import { ExcluirCompromissoComponent } from './excluir-compromisso/excluir-compromisso.component';
 import { CardCompromissoComponent } from './card-compromisso/card-compromisso.component';
+import { CompromissosRoutingModule } from './compromissos.routing.module';
+import { ContatosModule } from '../contatos/contatos.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -21,7 +24,9 @@ import { CardCompromissoComponent } from './card-compromisso/card-compromisso.co
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    NgbModule,
+    CompromissosRoutingModule,
+    ContatosModule
   ]
 })
 export class CompromissosModule { }

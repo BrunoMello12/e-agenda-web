@@ -15,11 +15,17 @@
             <p class="text-primary fw-semibold">O que você deseja gerenciar?</p>
           </section>
           <section id="buttons" class="d-grid d-md-flex gap-2">
-            <a (click)="navegar()" class="btn btn-primary"
+            <a class="btn btn-primary" routerLink="/contatos/listar"
               ><i class="bi bi-bookmark-check-fill me-2"></i>Contatos</a
             >
-            <a (click)="navegar()" class="btn btn-primary" 
+            <a class="btn btn-primary" routerLink="/compromissos/listar"
               ><i class="bi bi-bookmark-check-fill me-2"></i>Compromissos</a
+            >
+            <a class="btn btn-primary" routerLink="/categorias/listar"
+              ><i class="bi bi-bookmark-check-fill me-2"></i>Categorias</a
+            >
+            <a class="btn btn-primary" routerLink="/despesas/listar"
+              ><i class="bi bi-bookmark-check-fill me-2"></i>Despesas</a
             >
           </section>
         </div>

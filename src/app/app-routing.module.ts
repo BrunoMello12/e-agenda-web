@@ -6,35 +6,6 @@ import {
   Routes,
 } from '@angular/router';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
-import { InserirContatoComponent } from './views/contatos/inserir-contato/inserir-contato.component';
-import { ListarContatosComponent } from './views/contatos/listar-contatos/listar-contatos.component';
-import { EditarContatoComponent } from './views/contatos/editar-contato/editar-contato.component';
-import { ExcluirContatoComponent } from './views/contatos/excluir-contato/excluir-contato.component';
-import { ListarCompromissosComponent } from './views/compromissos/listar-compromissos/listar-compromissos.component';
-import { InserirCompromissoComponent } from './views/compromissos/inserir-compromisso/inserir-compromisso.component';
-import { EditarCompromissoComponent } from './views/compromissos/editar-compromisso/editar-compromisso.component';
-import { ExcluirCompromissoComponent } from './views/compromissos/excluir-compromisso/excluir-compromisso.component';
-import { FormsContatoViewModel } from './views/contatos/models/forms-contato.view-model';
-import { ContatosService } from './views/contatos/services/contatos.service';
-import { ListarContatoViewModel } from './views/contatos/models/listar-contato.view-model';
-
-const listarContatosResolver: ResolveFn<ListarContatoViewModel[]> = () => {
-  return inject(ContatosService).selecionarTodos();
-};
-
-const formsContatoResolver: ResolveFn<FormsContatoViewModel> = (
-  route: ActivatedRouteSnapshot
-) => {
-  return inject(ContatosService).selecionarPorId(route.paramMap.get('id')!);
-};
-
-const visualizarContatoResolver: ResolveFn<FormsContatoViewModel> = (
-  route: ActivatedRouteSnapshot
-) => {
-  return inject(ContatosService).selecionarContatoCompletoPorId(
-    route.paramMap.get('id')!
-  );
-};
 
 const routes: Routes = [
   {
@@ -46,41 +17,31 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
   },
+
   {
-    path: 'contatos/inserir',
-    component: InserirContatoComponent,
+    path: 'contatos',
+    loadChildren: () => import('./views/contatos/contatos.module')
+      .then(m => m.ContatosModule)
   },
   {
-    path: 'contatos/editar/:id',
-    component: EditarContatoComponent,
-    resolve: { contato: formsContatoResolver },
+    path: 'compromissos',
+    loadChildren: () => import('./views/compromissos/compromissos.module')
+      .then(m => m.CompromissosModule)
   },
+
   {
-    path: 'contatos/excluir/:id',
-    component: ExcluirContatoComponent,
-    resolve: { contato: visualizarContatoResolver },
+    path: 'categorias',
+    loadChildren: () => import('./views/categorias/categorias.module')
+      .then(m => m.CategoriasModule)
   },
+
   {
-    path: 'contatos/listar',
-    component: ListarContatosComponent,
-    resolve: { contatos: listarContatosResolver }
+    path: 'despesas',
+    loadChildren: () => import('./views/despesas/despesas.module')
+      .then(m => m.DespesasModule)
   },
-  {
-    path: 'compromissos/listar',
-    component: ListarCompromissosComponent,
-  },
-  {
-    path: 'compromissos/inserir',
-    component: InserirCompromissoComponent,
-  },
-  {
-    path: 'compromissos/editar/:id',
-    component: EditarCompromissoComponent,
-  },
-  {
-    path: 'compromissos/excluir/:id',
-    component: ExcluirCompromissoComponent,
-  },
+  
+ 
 ];
 
 @NgModule({

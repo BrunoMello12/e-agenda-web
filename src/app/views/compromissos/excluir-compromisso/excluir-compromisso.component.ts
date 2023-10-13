@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompromissoService } from '../services/compromissos.service';
-import { VisualizarContatoViewModel } from '../../contatos/models/visualizar-contato.view-model';
 import { VisualizarCompromissoViewModel } from '../models/visualizar-compromisso.view-model';
 
 @Component({
@@ -11,7 +10,6 @@ import { VisualizarCompromissoViewModel } from '../models/visualizar-compromisso
 })
 export class ExcluirCompromissoComponent implements OnInit {
   compromissoVM: VisualizarCompromissoViewModel;
-  idSelecionado: string | null = null;
 
   constructor(private compromissoService: CompromissoService,
     private route: ActivatedRoute,
@@ -20,18 +18,16 @@ export class ExcluirCompromissoComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.idSelecionado = this.route.snapshot.paramMap.get('id')!;
-
-    if(!this.idSelecionado) return;
-
-    this.compromissoService.selecionarCompromissoCompletoPorId(this.idSelecionado)
-      .subscribe(res => {
-        this.compromissoVM = res;
-      })
+      this.compromissoVM = this.route.snapshot.data['compromissos'];
   }
 
   gravar(){
-    this.compromissoService.excluir(this.idSelecionado!)
+
+    const id = this.route.snapshot.paramMap.get('id')!;
+
+    if (!id) return;
+
+    this.compromissoService.excluir(id!)
       .subscribe(res => { this.router.navigate(['/compromissos/listar'])})
   }
 }

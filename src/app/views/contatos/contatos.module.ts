@@ -9,6 +9,7 @@ import { EditarContatoComponent } from './editar-contato/editar-contato.componen
 import { ExcluirContatoComponent } from './excluir-contato/excluir-contato.component';
 import { CardContatoComponent } from './card-contato/card-contato.component';
 import 'src/app/extensions/form-group.extensions';
+import { ContatosRoutingModule } from './contatos-routing.module';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import 'src/app/extensions/form-group.extensions';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    ContatosRoutingModule
   ],
   providers: [ContatosService]
 })

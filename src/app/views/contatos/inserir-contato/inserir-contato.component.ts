@@ -4,7 +4,6 @@ import { ContatosService } from '../services/contatos.service';
 import { Router } from '@angular/router';
 import { FormsContatoViewModel } from '../models/forms-contato.view-model';
 import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-inserir-contato',
