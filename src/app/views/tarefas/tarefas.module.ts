@@ -10,13 +10,15 @@ import 'src/app/extensions/form-group.extensions';
 import { TarefasService } from './services/tarefas.service';
 import { ListarTarefasComponent } from './listar-tarefas/listar-tarefas.component';
 import { EditarTarefaComponent } from './editar-tarefa/editar-tarefa.component';
+import { ExcluirTarefaComponent } from './excluir-tarefa/excluir-tarefa.component';
 
 
 @NgModule({
   declarations: [
     InserirTarefaComponent,
     ListarTarefasComponent,
-    EditarTarefaComponent
+    EditarTarefaComponent,
+    ExcluirTarefaComponent
   ],
   imports: [
     CommonModule,

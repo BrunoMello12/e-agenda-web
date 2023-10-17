@@ -4,6 +4,7 @@ import { InserirTarefaComponent } from './inserir-tarefa/inserir-tarefa.componen
 import { ListarTarefasComponent } from './listar-tarefas/listar-tarefas.component';
 import { TarefasService } from './services/tarefas.service';
 import { EditarTarefaComponent } from './editar-tarefa/editar-tarefa.component';
+import { ExcluirTarefaComponent } from './excluir-tarefa/excluir-tarefa.component';
 
 const listarTarefasResolver = () => {
   return inject(TarefasService).selecionarTodos();
@@ -11,6 +12,10 @@ const listarTarefasResolver = () => {
 
 const formsTarefasResolver = (route: ActivatedRouteSnapshot) => {
   return inject(TarefasService).selecionarPorId(route.paramMap.get('id')!);
+}
+
+const visualizarTarefaResolver = (route: ActivatedRouteSnapshot) => {
+  return inject(TarefasService).selecionarTarefaCompletaPorId(route.paramMap.get('id')!);
 }
 
 const routes: Routes = [
@@ -32,6 +37,11 @@ const routes: Routes = [
     path: 'editar/:id',
     component: EditarTarefaComponent,
     resolve: {tarefa: formsTarefasResolver}
+  },
+  {
+    path: 'excluir/:id',
+    component: ExcluirTarefaComponent,
+    resolve: { tarefa: visualizarTarefaResolver }
   },
 ];
 

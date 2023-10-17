@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  FormArray,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ItemTarefaViewModel } from '../models/item-tarefa.view-model';
@@ -9,19 +15,21 @@ import { TarefasService } from '../services/tarefas.service';
 @Component({
   selector: 'app-editar-tarefa',
   templateUrl: './editar-tarefa.component.html',
-  styleUrls: ['./editar-tarefa.component.css']
+  styleUrls: ['./editar-tarefa.component.css'],
 })
 export class EditarTarefaComponent implements OnInit {
   formTarefa?: FormGroup;
   tituloItemControl?: FormControl;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private tarefasService: TarefasService,
-    private router: Router,
     private toastrService: ToastrService,
-    private route: ActivatedRoute){}
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  get itens(){
+  get itens(): FormArray {
     return this.formTarefa?.get('itens') as FormArray;
   }
 
@@ -37,21 +45,26 @@ export class EditarTarefaComponent implements OnInit {
 
     const tarefa = this.route.snapshot.data['tarefa'];
 
+    // Carregando título e prioridade
     this.formTarefa.patchValue(tarefa);
 
-    for(let itemCadastrado of tarefa.itens) {
-      const itemTarefa = this.formBuilder.group({
+    // Carregando itens no FormArray
+    for (let itemCadastrado of tarefa.itens) {
+      const novoItemGroup = this.formBuilder.group({
         id: [itemCadastrado.id],
         titulo: [itemCadastrado.titulo],
         status: [itemCadastrado.status],
-        concluido: [itemCadastrado.concluido]
-      })
-      this.itens.push(itemCadastrado);
+        concluido: [itemCadastrado.concluido],
+      });
+
+      this.itens.push(novoItemGroup);
     }
   }
 
-  campoEstaInvalido(nome: string){
-    return this.formTarefa?.get(nome)!.touched && this.formTarefa?.get(nome)!.invalid;
+  campoEstaInvalido(nome: string) {
+    return (
+      this.formTarefa!.get(nome)!.touched && this.formTarefa!.get(nome)!.invalid
+    );
   }
 
   adicionarItem(): void {
@@ -64,8 +77,8 @@ export class EditarTarefaComponent implements OnInit {
     const novoItemGroup = this.formBuilder.group({
       titulo: [item.titulo],
       status: [item.status],
-      concluido: [item.concluido]
-    })
+      concluido: [item.concluido],
+    });
 
     this.itens.push(novoItemGroup);
 
@@ -77,35 +90,42 @@ export class EditarTarefaComponent implements OnInit {
 
     const valorAtual = grupo?.get('status')?.value as StatusItemTarefa;
 
-    const valorAlterado = valorAtual == StatusItemTarefa.Removido ? StatusItemTarefa.Inalterado : StatusItemTarefa.Removido
+    const valorAlternado =
+      valorAtual == StatusItemTarefa.Removido
+        ? StatusItemTarefa.Inalterado
+        : StatusItemTarefa.Removido;
 
-    grupo?.patchValue({ status: valorAlterado})
+    grupo?.patchValue({ status: valorAlternado });
   }
 
   concluirItem(index: number): void {
     const grupo = this.itens.controls.at(index);
 
-    const valorAtual = grupo?.get('concluido')?.value as StatusItemTarefa;
+    const valorAtual = grupo?.get('concluido')?.value as boolean;
 
-    const valorAlterado = !valorAtual;
+    const valorAlternado = !valorAtual;
 
-    grupo?.patchValue({ concluido: valorAlterado})
+    grupo?.patchValue({ concluido: valorAlternado });
   }
 
   gravar(): void {
-    if(this.formTarefa?.invalid) {
+    if (this.formTarefa?.invalid) {
       const erros = this.formTarefa.validate();
 
-      for(let erro of erros) this.toastrService.warning(erro);
+      for (let erro of erros) this.toastrService.warning(erro);
 
       return;
     }
 
     const id = this.route.snapshot.paramMap.get('id')!;
 
-    this.tarefasService.editar(id,this.formTarefa?.value).subscribe(res => {
-      this.toastrService.success(`A tarefa ${res.titulo} foi cadastrada com sucesso!`, 'Sucesso')
-      this.router.navigate(['/tarefas/listar'])
-    })
+    this.tarefasService.editar(id, this.formTarefa?.value).subscribe((res) => {
+      this.toastrService.success(
+        `A tarefa "${res.titulo}" foi editada com sucesso!`,
+        'Sucesso'
+      );
+
+      this.router.navigate(['/tarefas', 'listar']);
+    });
   }
 }
