@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UsuarioTokenViewModel } from 'src/app/core/auth/models/usuario-token.view-model';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  usuario$?: Observable<UsuarioTokenViewModel | undefined>;
 
-  constructor(private router: Router){}
+  constructor(private authService: AuthService) {}
 
-  navegar(){
-    this.router.navigate(['/contatos/listar']);
+  ngOnInit(): void {
+    this.usuario$ = this.authService.obterUsuarioAutenticado();
   }
 }

@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { FormsCompromissosViewModel } from "../models/forms-compromisso.view-model";
 import { ListarCompromissosViewModel } from "../models/listar-compromisso.view-model";
 import { VisualizarCompromissoViewModel } from "../models/visualizar-compromisso.view-model";
+import { LocalStorageService } from "src/app/core/auth/services/local-storage.service";
 
 
 
@@ -15,7 +16,7 @@ export class CompromissoService{
   private endpoint: string = 
   'https://e-agenda-web-api.onrender.com/api/compromissos/';
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private localStorage: LocalStorageService){}
 
   public inserir(compromisso: FormsCompromissosViewModel): Observable<FormsCompromissosViewModel>{
     return this.http.post<any>(this.endpoint, compromisso, this.obterHeadersAutorizacao());
@@ -49,7 +50,7 @@ export class CompromissoService{
   }
 
   private obterHeadersAutorizacao() {
-    const token = environment.apiKey;
+    const token = this.localStorage.obterDadosLocaisSalvos()?.chave;
 
     return {
       headers: new HttpHeaders({
