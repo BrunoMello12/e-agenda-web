@@ -14,11 +14,15 @@ export class ContatosService{
   private endpoint: string = 
   'https://e-agenda-web-api.onrender.com/api/contatos/';
 
+  private endpointFavoritar: string = 
+  'https://e-agenda-web-api.onrender.com/api/contatos/favoritos/';
+
+
   constructor(private http: HttpClient, private localStorage: LocalStorageService){}
 
   public inserir(contato: FormsContatoViewModel): Observable<FormsContatoViewModel>{
     return this.http
-    .post<any>(this.endpoint, contato, this.obterHeadersAutorizacao())
+    .post<any>(this.endpoint, contato)
     .pipe(
       map(res => res.dados), 
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
@@ -28,37 +32,47 @@ export class ContatosService{
   public editar(id: string, contato: FormsContatoViewModel){
     return this.http.put<any>(
       this.endpoint + id,
-       contato, 
-       this.obterHeadersAutorizacao()
+       contato
        ).pipe(map(res => res.dados),  
        catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
        );
   }
 
   public excluir(id: string): Observable<any>{
-    return this.http.delete(this.endpoint + id, this.obterHeadersAutorizacao())
+    return this.http.delete(this.endpoint + id)
     .pipe( 
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
       );
   }
 
   public selecionarTodos(): Observable<ListarContatoViewModel[]>{
-    return this.http.get<any>(this.endpoint, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint)
       .pipe(map(res => res.dados),  
       catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
       );
   }
 
   public selecionarPorId(id: string): Observable<FormsContatoViewModel>{
-    return this.http.get<any>(this.endpoint + id, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint + id)
     .pipe(map(res => res.dados));
   }
 
   public selecionarContatoCompletoPorId(id: string): Observable<VisualizarContatoViewModel>{
-    return this.http.get<any>(this.endpoint + 'visualizacao-completa/' + id, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint + 'visualizacao-completa/' + id)
     .pipe(map(res => res.dados),  
     catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
     );
+  }
+
+   public selecionarContatosFavoritos(): Observable<ListarContatoViewModel[]> {
+    return this.http.get<any>(this.endpoint)
+      .pipe(
+        map((res: any) => res.dados),
+        map((contatos: ListarContatoViewModel[]) => {
+          return contatos.filter(contato => contato.favorito === true);
+        }),
+        catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
+      );
   }
 
   private processarErroHttp(erro: HttpErrorResponse){
@@ -76,14 +90,12 @@ export class ContatosService{
         return throwError(() => new Error(mensagemErro));
   }
 
-  private obterHeadersAutorizacao() {
-    const token = this.localStorage.obterDadosLocaisSalvos()?.chave;
-
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      }),
-    };
+  public favoritarContato(id: string, contato: ListarContatoViewModel): Observable<ListarContatoViewModel> {
+    return this.http.put<any>(
+      this.endpointFavoritar + id,
+       contato
+       ).pipe(map(res => res.dados),  
+       catchError((err: HttpErrorResponse) => this.processarErroHttp(err))
+       );
   }
 }

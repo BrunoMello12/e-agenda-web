@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -8,19 +8,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { CoreModule } from './core/core.module';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { RegistroModule } from './views/registro/registro.module';
 import { LoginModule } from './views/login/login.module';
 import { AuthService } from './core/auth/services/auth.service';
+import { httpTokenInterceptor } from './core/auth/interceptors/http-token.interceptor';
+
+
 
 function logarUsuarioSalvoFactory(authService: AuthService) {
   return () => authService.logarUsuarioSalvo();
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,7 +36,7 @@ function logarUsuarioSalvoFactory(authService: AuthService) {
       preventDuplicates: true,
     }),
 
-    HttpClientModule,
+    
     CoreModule,
     RegistroModule,
     LoginModule,
@@ -43,9 +47,10 @@ function logarUsuarioSalvoFactory(authService: AuthService) {
       provide: APP_INITIALIZER,
       useFactory: logarUsuarioSalvoFactory,
       deps: [AuthService],
-      multi: true
-    }
+      multi: true,
+    },
+    provideHttpClient(withInterceptors([httpTokenInterceptor])),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

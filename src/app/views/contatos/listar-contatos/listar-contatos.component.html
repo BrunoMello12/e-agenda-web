@@ -18,6 +18,24 @@
           <i class="pi pi-plus-circle me-2"></i>
           Novo Contato
         </a>
+
+        <a
+        (click)="selecionarTodos()"
+        role="button"
+        class="btn btn-primary me-md-1"
+      >
+        <i class="pi pi-plus-circle me-2"></i>
+        Todos os Contatos
+      </a>
+
+        <a
+          (click)="filtrarFavoritos()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="pi pi-plus-circle me-2"></i>
+          Contatos Favoritos
+        </a>
       </div>
 
       <!-- Listagem de Registros -->

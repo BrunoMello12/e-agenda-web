@@ -19,8 +19,7 @@ export class DespesasService {
   ): Observable<FormsDespesaViewModel> {
     return this.http.post<any>(
       this.endpoint,
-      despesa,
-      this.obterHeadersAutorizacao()
+      despesa
     ).pipe(map(res => res.dados));
   }
 
@@ -30,38 +29,26 @@ export class DespesasService {
   ): Observable<FormsDespesaViewModel> {
     return this.http.put<any>(
       this.endpoint + id,
-      despesa,
-      this.obterHeadersAutorizacao()
+      despesa
     ).pipe(map(res => res.dados));
   }
 
   public excluir(id: string): Observable<any>{
-    return this.http.delete(this.endpoint + id, this.obterHeadersAutorizacao())
+    return this.http.delete(this.endpoint + id)
   }
 
   public selecionarTodos(): Observable<ListarDespesaViewModel[]>{
-    return this.http.get<any>(this.endpoint, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint)
     .pipe(map(res => res.dados));
   }
 
   public selecionarPorId(id: string): Observable<FormsDespesaViewModel[]>{
-    return this.http.get<any>(this.endpoint + id, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint + id)
     .pipe(map(res => res.dados));
   }
 
   public selecionarDespesaCompletaPorId(id: string): Observable<VisualizarDespesaViewModel>{
-    return this.http.get<any>(this.endpoint + 'visualizacao-completa/' +id, this.obterHeadersAutorizacao())
+    return this.http.get<any>(this.endpoint + 'visualizacao-completa/' +id)
     .pipe(map(res => res.dados));
-  }
-
-  private obterHeadersAutorizacao() {
-    const token = this.localStorage.obterDadosLocaisSalvos()?.chave;
-
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      }),
-    };
   }
 }
