@@ -11,9 +11,28 @@ import { ActivatedRoute } from '@angular/router';
 export class ListarDespesasComponent implements OnInit {
   despesas: ListarDespesaViewModel[] = [];
 
-  constructor(private route: ActivatedRoute){}
+  constructor(private route: ActivatedRoute,
+     private despesasService: DespesasService){}
   
  ngOnInit(): void {
    this.despesas = this.route.snapshot.data['despesas'];
  }
+
+ selecionarDespesasAntigas(){
+    this.despesasService.selecionarDespesasAntigas().subscribe(res => {
+      this.despesas = res;
+    })
+ }
+
+ selecionarDespesas30Dias(){
+  this.despesasService.selecionarDespesas30Dias().subscribe(res => {
+    this.despesas = res;
+  })
+}
+
+  selecionarTodos(){
+    this.despesasService.selecionarTodos().subscribe(res => {
+      this.despesas = res;
+    })
+  }
 }

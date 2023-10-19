@@ -15,8 +15,26 @@
           role="button"
           class="btn btn-primary me-md-1"
         >
-          <i class="pi pi-plus-circle me-2"></i>
+          <i class="bi bi-plus-circle"></i>
           Novo Compromisso
+        </a>
+
+        <a
+          (click)="selecionarTodos()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="bi bi-list-columns-reverse"></i>
+          Todos os Compromissos
+        </a>
+
+        <a
+          (click)="selecionarCompromissosHoje()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="bi bi-clock"></i>
+          Compromissos de Hoje
         </a>
       </div>
 

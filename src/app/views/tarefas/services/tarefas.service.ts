@@ -9,7 +9,7 @@ import { LocalStorageService } from "src/app/core/auth/services/local-storage.se
 @Injectable()
 export class TarefasService {
   private endpoint: string =
-  'https://e-agenda-web-api.onrender.com/api/tarefas/';
+  'https://e-agenda-web-api.onrender.com/api/tarefas';
 
 constructor(private http: HttpClient, private localStorage: LocalStorageService) {}
 
@@ -41,6 +41,20 @@ public excluir(id: string): Observable<any> {
 public selecionarTodos(): Observable<ListarTarefaViewModel[]>{
   return this.http.get<any>(this.endpoint)
   .pipe(map(res => res.dados));
+}
+
+public selecionarTarefasConcluidas(): Observable<ListarTarefaViewModel[]> {
+  return this.http.get<any>(this.endpoint + '?status=2')
+    .pipe(
+      map((res: any) => res.dados),
+    );
+}
+
+public selecionarTarefasPendentes(): Observable<ListarTarefaViewModel[]> {
+  return this.http.get<any>(this.endpoint + '?status=1')
+    .pipe(
+      map((res: any) => res.dados),
+    );
 }
 
 public selecionarPorId(id: string): Observable<FormsTarefaViewModel>{

@@ -38,6 +38,12 @@ export class CompromissoService{
       .pipe(map(res => res.dados));
   }
 
+  public selecionarCompromissosHoje(): Observable<ListarCompromissosViewModel[]>{
+    return this.http.get<any>(this.endpoint + 'hoje')
+      .pipe(map(res => res.dados));
+  }
+  
+
   public selecionarPorId(id: string): Observable<FormsCompromissosViewModel>{
     return this.http.get<any>(this.endpoint + id)
     .pipe(map(res => res.dados));

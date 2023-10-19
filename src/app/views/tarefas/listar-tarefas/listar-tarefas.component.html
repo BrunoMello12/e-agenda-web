@@ -15,8 +15,35 @@
           role="button"
           class="btn btn-primary me-md-1"
         >
-          <i class="bi bi-plus-circle me-1"></i>
+          <i class="bi bi-plus-circle"></i>
           Nova Tarefa
+        </a>
+
+        <a
+          (click)="selecionarTodas()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="bi bi-list-columns-reverse"></i>
+          Todas as Tarefas
+        </a>
+
+        <a
+          (click)="selecionarTarefasConcluidas()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="bi bi-check-circle"></i>
+          Tarefas Concluídas
+        </a>
+
+        <a
+          (click)="selecionarTarefasPendentes()"
+          role="button"
+          class="btn btn-primary me-md-1"
+        >
+          <i class="bi bi-clock"></i>
+          Tarefas Pendentes
         </a>
       </div>
 

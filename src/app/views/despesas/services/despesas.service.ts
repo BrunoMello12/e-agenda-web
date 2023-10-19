@@ -42,6 +42,16 @@ export class DespesasService {
     .pipe(map(res => res.dados));
   }
 
+  public selecionarDespesasAntigas(): Observable<ListarDespesaViewModel[]>{
+    return this.http.get<any>(this.endpoint + 'antigas')
+    .pipe(map(res => res.dados));
+  }
+
+  public selecionarDespesas30Dias(): Observable<ListarDespesaViewModel[]>{
+    return this.http.get<any>(this.endpoint + 'ultimos-30-dias')
+    .pipe(map(res => res.dados));
+  }
+
   public selecionarPorId(id: string): Observable<FormsDespesaViewModel[]>{
     return this.http.get<any>(this.endpoint + id)
     .pipe(map(res => res.dados));
